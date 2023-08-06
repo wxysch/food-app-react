@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { MdShoppingBasket } from "react-icons/md";
 import { motion } from "framer-motion";
+import NotFound from '../img/NotFound.svg'
 
 const RowContainer = ({ flag, data, scrollValue }) => {
   console.log(data);
@@ -14,10 +15,10 @@ const RowContainer = ({ flag, data, scrollValue }) => {
       className={`w-full scroll-smooth gap-3 flex items-center my-12 cartBg ${
         flag
           ? "overflow-x-scroll scrollbar-none"
-          : "overflow-x-hidden flex-wrap"
+          : "overflow-x-hidden flex-wrap justify-center"
       }`}
     >
-      {data &&
+      {data.length>0 ? 
         data.map((item) => (
           <div
             key={item.id}
@@ -25,12 +26,12 @@ const RowContainer = ({ flag, data, scrollValue }) => {
             bg-gray-200 rounded-lg p-2 backdrop-blur-lg flex flex-col items-center justify-between"
           >
             <div className="w-full flex items-center justify-between">
-              <motion.img
-                whileHover={{ scale: 1.2 }}
+              <motion.div whileHover={{scale : 1.2}} className="w-40 h-40 -mt-8 drop-shadow-2xl">
+              <img
                 src={item?.imageURL}
                 alt=""
-                className="w-40 -mt-8 drop-shadow-2xl"
               />
+              </motion.div>
               <div className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer bg-red-600">
                 <MdShoppingBasket className="text-white" />
               </div>
@@ -50,7 +51,12 @@ const RowContainer = ({ flag, data, scrollValue }) => {
               </div>
             </div>
           </div>
-        ))}
+        )) : (
+          <div className="w-full flex flex-col items-center justify-center">
+            <img src={NotFound} className="h-340" alt="" />
+            <p className="text-xl text-headingColor font-semibold my-2">Меню недоступно</p>
+          </div>
+        )}
     </div>
   );
 };

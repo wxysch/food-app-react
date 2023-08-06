@@ -5,6 +5,7 @@ import RowContainer from "./RowContainer";
 import { useStateValue } from "../context/StateProvider";
 import foodItems from "../context/reducer";
 import MenuContainer from "./MenuContainer";
+import CardContainer from "./CardContainer";
 
 const MainContainer = () => {
   const [{ foodItems }, dispatch] = useStateValue();
@@ -41,6 +42,7 @@ const MainContainer = () => {
         />
       </section>
       <MenuContainer/>
+      <CardContainer/>
     </div>
   );
 };

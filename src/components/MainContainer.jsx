@@ -8,10 +8,9 @@ import MenuContainer from "./MenuContainer";
 import CardContainer from "./CardContainer";
 
 const MainContainer = () => {
-  const [{ foodItems }, dispatch] = useStateValue();
-  const [scrollValue, setscrollValue] = useState(0)
-  useEffect(()=>{},[scrollValue])
-
+  const [{ foodItems, cartShow }, dispatch] = useStateValue();
+  const [scrollValue, setscrollValue] = useState(0);
+  useEffect(() => {}, [scrollValue,cartShow]);
 
   return (
     <div className="flex w-full h-auto flex-col items-center justify-center">
@@ -25,24 +24,28 @@ const MainContainer = () => {
             Фрукты
           </p>
           <div className="hidden md:flex gap-3 items-center">
-            <div className="w-8 h-8 rounded-lg bg-orange-300 items-center flex justify-center hover:cursor-pointer hover:bg-orange-500"
-            onClick={()=>setscrollValue(-200)}>
+            <div
+              className="w-8 h-8 rounded-lg bg-orange-300 items-center flex justify-center hover:cursor-pointer hover:bg-orange-500"
+              onClick={() => setscrollValue(-200)}
+            >
               <MdChevronLeft className="text-white text-2xl" />
             </div>
-            <div className="w-8 h-8 rounded-lg bg-orange-300 items-center flex justify-center hover:cursor-pointer hover:bg-orange-500"
-            onClick={() => setscrollValue(200)}>
+            <div
+              className="w-8 h-8 rounded-lg bg-orange-300 items-center flex justify-center hover:cursor-pointer hover:bg-orange-500"
+              onClick={() => setscrollValue(200)}
+            >
               <MdChevronRight className="text-white text-2xl" />
             </div>
           </div>
         </div>
         <RowContainer
-        scrollValue={scrollValue}
+          scrollValue={scrollValue}
           flag={true}
           data={foodItems?.filter((n) => n.category === "Фрукты")}
         />
       </section>
-      <MenuContainer/>
-      <CardContainer/>
+      <MenuContainer />
+      {cartShow && <CardContainer />}
     </div>
   );
 };

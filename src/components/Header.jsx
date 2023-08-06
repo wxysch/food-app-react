@@ -12,7 +12,7 @@ import { actionType } from "../context/reducer";
 const Header = () => {
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
-  const [{ user,cartShow}, dispatch] = useStateValue();
+  const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
   const [isMenu, setIsMenu] = useState(false);
   const login = async () => {
     if (!user) {
@@ -36,14 +36,14 @@ const Header = () => {
       user: null,
     });
   };
-  const showCart= () =>{ 
+  const showCart = () => {
     dispatch({
-      type: actionType.SET_CARD_SHOW,
+      type: actionType.SET_CART_SHOW,
       cartShow: !cartShow,
     });
-  }
+  };
   return (
-    <header className="w-screen z-50 bg-primary p-3 px-4 md:p-6 md:px-16">
+    <header className="w-screen z-50 p-2 px-4 md:p-6 md:px-16">
       {/* desktop */}
       <div className="hidden md:flex w-full h-full items-center justify-between">
         <Link to={"/"} className="flex items-center gap-2">
@@ -54,26 +54,44 @@ const Header = () => {
         </Link>
         <div className="flex items-center gap-8">
           <ul className="flex items-center gap-8">
-            <li onClick={()=>setIsMenu(false)} className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+            <li
+              onClick={() => setIsMenu(false)}
+              className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer"
+            >
               Home
             </li>
-            <li onClick={()=>setIsMenu(false)} className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+            <Link to={'/Menu'}
+              onClick={() => setIsMenu(false)}
+              className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer"
+            >
               Menu
-            </li>
-            
-            <li onClick={()=>setIsMenu(false)} className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+            </Link>
+
+            <li
+              onClick={() => setIsMenu(false)}
+              className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer"
+            >
               About Us
             </li>
-            <li onClick={()=>setIsMenu(false)} className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+            <li
+              onClick={() => setIsMenu(false)}
+              className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer"
+            >
               Service
             </li>
           </ul>
-          <div className="relative flex items-center justify-center"
-          onClick={showCart}>
+          <div
+            className="relative flex items-center justify-center"
+            onClick={showCart}
+          >
             <MdShoppingBasket className="text-textColor text-2xl cursor-pointer" />
-            <div className="w-5 absolute -top-2 -right-2 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
-              <p className="text-xs text-white font-semibold">2</p>
-            </div>
+            {cartItems && cartItems.length > 0 && (
+              <div className="w-5 absolute -top-2 -right-2 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
+                <p className="text-xs text-white font-semibold">
+                  {cartItems.length}
+                </p>
+              </div>
+            )}
           </div>
           <div className="relative">
             <motion.img
@@ -110,12 +128,18 @@ const Header = () => {
       </div>
       {/* mobile */}
       <div className="flex items-center justify-between md:hidden w-full h-full">
-        <div className="relative flex items-center justify-center"
-        onClick={showCart}>
-          <MdShoppingBasket className="text-textColor text-2xl cursor-pointer"/>
-          <div className="w-5 absolute -top-2 -right-2 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
-            <p className="text-xs text-white font-semibold">2</p>
-          </div>
+        <div
+          className="relative flex items-center justify-center"
+          onClick={showCart}
+        >
+          <MdShoppingBasket className="text-textColor text-2xl cursor-pointer" />
+          {cartItems && cartItems.length > 0 && (
+            <div className="w-5 absolute -top-2 -right-2 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
+              <p className="text-xs text-white font-semibold">
+                {cartItems.length}
+              </p>
+            </div>
+          )}
         </div>
         <Link to={"/"} className="flex items-center gap-2">
           <img src={Logo} className="w-10 object-cover" alt="logo" />
